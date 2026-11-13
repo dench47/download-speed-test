@@ -8,8 +8,9 @@ import urllib.request
 
 def download_once(url: str) -> tuple[float, int]:
     """Скачивает url целиком, ждёт полного ответа. Возвращает (секунды, байты)."""
+    req = urllib.request.Request(url, headers={"User-Agent": "speedtest/1.0"})
     start = time.perf_counter()
-    with urllib.request.urlopen(url, timeout=120) as resp:
+    with urllib.request.urlopen(req, timeout=120) as resp:
         body = resp.read()  # читаем тело до конца — это и есть полный ответ
     elapsed = time.perf_counter() - start
     return elapsed, len(body)
